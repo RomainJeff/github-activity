@@ -77,9 +77,17 @@ $totalCommits = array_reduce($commits, function ($total, $commits) {
     return $total + $commits;
 }, 0);
 
+$mostActiveHour = array_reduce(array_keys($commits), function ($mostActive, $commit) use ($commits) {
+    if ($commits[$mostActive] < $commits[$commit]) {
+        return $commit;
+    }
+    return $mostActive;
+});
+
 echo $twig->render('index.html.twig', [
     'commits' => $commits,
     'totalCommits' => $totalCommits,
+    'mostActiveHour' => $mostActiveHour,
     'since' => getenv('GH_DATE'),
     'author' => getenv('GH_USER'),
 ]);

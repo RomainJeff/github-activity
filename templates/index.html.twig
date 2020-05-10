@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+
+        <style>
+            * {
+                font-family: "Avenir";
+            }
+
+            body {
+                background: #ffe7aa;
+                text-align: center;
+            }
+        </style>
+    </head>
     <body>
 
-        <h1>{{ author }}</h1>
+        <h1 style="margin-bottom: 0">What your day looks like @{{ author }}</h1>
+        <h4 style="font-weight: 400; font-size: 15px; margin-top: 5px; margin-bottom:40px;">Commits data aggregated since {{ since }}</h4>
 
-        <div style="width:75%;">
+        <div style="width:750px; margin-left: auto; margin-right: auto;">
             <canvas id="canvas"></canvas>
+       
+            <div style="float: left; width: 50%; text-align: center">
+                <h3 style="font-size: 50px;margin-bottom: 0px;margin-top: 10px;padding: 0;">{{ totalCommits }}</h3>
+                <small>commits in the last 30 days</small>
+            </div>
+
+            <div style="float: left; width: 50%; text-align: center">
+                <h3 style="font-size: 50px;margin-bottom: 0px;margin-top: 10px;padding: 0;">{{ mostActiveHour }}h</h3>
+                <small>most active hour</small>
+            </div>
+
+            <div style="clear: both; margin-bottom: 70px"></div>
         </div>
 
-        <h3>{{ totalCommits }}</h3>
-        since {{ since }}
+        <a 
+            style="color: black; font-size: 13px;"
+            href="https://github.com/RomainJeff/github-activity" 
+            target="_blank">View code source on Github</a>
         
         <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
-        <script
-			  src="https://code.jquery.com/jquery-3.5.1.min.js"
-			  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-			  crossorigin="anonymous"></script>
         <script>
-            $(function () {
+            (function () {
                 var config = {
                     type: 'line',
                     data: {
@@ -28,8 +51,8 @@
                         ],
                         datasets: [{
                             label: 'Commit Graph',
-                            backgroundColor: 'rgb(255, 99, 132)',
-                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: '#000000',
+                            borderColor: '#000000',
                             pointRadius: 0,
                             pointHoverRadius: 0,
                             data: [
@@ -59,7 +82,9 @@
                                 display: true,
                                 scaleLabel: {
                                     display: false,
-                                    labelString: 'Hours'
+                                    labelString: 'Hours',
+                                    fontFamily: 'Avenir',
+                                    fontColor: '#000000',
                                 }
                             }],
                             yAxes: [{
@@ -74,7 +99,7 @@
                 };
                 var ctx = document.getElementById('canvas').getContext('2d');
                 window.myLine = new Chart(ctx, config);
-            });
+            })();
         </script>
     </body>
 </html>
