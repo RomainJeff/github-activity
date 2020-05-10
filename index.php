@@ -22,7 +22,7 @@ $githubAPI = new \Github\Client($builder);
 
 $githubAPI->authenticate(
     getenv('GH_TOKEN'), 
-    getenv('GH_TOKEN'), 
+    null, 
     Github\Client::AUTH_HTTP_TOKEN
 );
 
