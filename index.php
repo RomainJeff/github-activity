@@ -16,9 +16,9 @@ $filesystem        = new Filesystem($filesystemAdapter);
 $pool = new FilesystemCachePool($filesystem);
 
 $builder = new Github\HttpClient\Builder();
+$builder->addCache($pool);
 $builder->addHeaderValue('Accept', sprintf('application/vnd.github.cloak-preview+json'));
 $githubAPI = new \Github\Client($builder);
-$githubAPI->addCache($pool);
 
 $githubAPI->authenticate(
     getenv('GH_TOKEN'), 
@@ -55,13 +55,17 @@ $hours = [
 
 $searchAPI = $githubAPI->api('search');
 $paginator  = new Github\ResultPager($githubAPI);
-$parameters = array('author:'. getenv('GH_USER') .' >='. getenv('GH_DATE'), 'committer-date', 'desc');
+$parameters = array('author:'. getenv('GH_USER'), 'committer-date', 'desc');
 
 $commits    = array_reduce(
     $paginator->fetchAll($searchAPI, 'commits', $parameters),
     function ($items, $commit) {
         $date = new DateTime($commit['commit']['author']['date']);
-        dump($date);
+
+        if ($date->getTimestamp() < strtotime(getenv('GH_DATE'))) {
+            return $items;
+        }
+
         $formattedDate = $date->format('H');
         $items[$formattedDate] += 1;
         return $items;
@@ -76,5 +80,5 @@ $totalCommits = array_reduce($commits, function ($total, $commits) {
 echo $twig->render('index.html.twig', [
     'commits' => $commits,
     'totalCommits' => $totalCommits,
-    ''
+    'since' => getenv('GH_DATE'),
 ]);

@@ -6,6 +6,9 @@
         <div style="width:75%;">
             <canvas id="canvas"></canvas>
         </div>
+
+        <h3>{{ totalCommits }}</h3>
+        since {{ since }}
         
         <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
         <script
@@ -41,7 +44,7 @@
                         },
                         hover: {
                             mode: 'nearest',
-                            intersect: true
+                            intersect: false
                         },
                         scales: {
                             xAxes: [{
