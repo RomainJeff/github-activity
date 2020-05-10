@@ -25,7 +25,7 @@
                             '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
                         ],
                         datasets: [{
-                            label: 'Productivity',
+                            label: 'Commit Graph',
                             backgroundColor: 'rgb(255, 99, 132)',
                             borderColor: 'rgb(255, 99, 132)',
                             data: [
@@ -39,6 +39,7 @@
                     options: {
                         responsive: true,
                         tooltips: {
+                            enabled: false,
                             mode: 'index',
                             intersect: false,
                         },
@@ -50,14 +51,14 @@
                             xAxes: [{
                                 display: true,
                                 scaleLabel: {
-                                    display: true,
+                                    display: false,
                                     labelString: 'Hours'
                                 }
                             }],
                             yAxes: [{
-                                display: true,
+                                display: false,
                                 scaleLabel: {
-                                    display: true,
+                                    display: false,
                                     labelString: 'Commits'
                                 }
                             }]
