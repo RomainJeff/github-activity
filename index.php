@@ -81,4 +81,5 @@ echo $twig->render('index.html.twig', [
     'commits' => $commits,
     'totalCommits' => $totalCommits,
     'since' => getenv('GH_DATE'),
+    'author' => getenv('GH_USER'),
 ]);
