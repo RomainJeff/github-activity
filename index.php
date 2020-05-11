@@ -26,6 +26,7 @@ $githubAPI->authenticate(
     Github\Client::AUTH_HTTP_TOKEN
 );
 
+$ThirtyDaysAgo = strtotime('-30 days');
 $hours = [
     "00" => 0,
     "01" => 0,
@@ -59,10 +60,10 @@ $parameters = array('author:'. getenv('GH_USER'), 'committer-date', 'desc');
 
 $commits    = array_reduce(
     $paginator->fetchAll($searchAPI, 'commits', $parameters),
-    function ($items, $commit) {
+    function ($items, $commit) use ($ThirtyDaysAgo) {
         $date = new DateTime($commit['commit']['author']['date']);
 
-        if ($date->getTimestamp() < strtotime(getenv('GH_DATE'))) {
+        if ($date->getTimestamp() < $ThirtyDaysAgo) {
             return $items;
         }
 
@@ -88,6 +89,6 @@ echo $twig->render('index.html.twig', [
     'commits' => $commits,
     'totalCommits' => $totalCommits,
     'mostActiveHour' => $mostActiveHour,
-    'since' => getenv('GH_DATE'),
+    'since' => date('Y-m-d', $ThirtyDaysAgo),
     'author' => getenv('GH_USER'),
 ]);
