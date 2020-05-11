@@ -18,3 +18,5 @@ docker-compose up -d
 ```
 
 Go to https://localhost:8000 for the result !
+
+Important to note: Github API only allows 30calls/minute... (and limit results to 100 per page)
